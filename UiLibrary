@@ -2211,7 +2211,7 @@ function library:init()
                             text = '';
                             tooltip = '';
                             bind = 'none';
-                            mode = 'toggle';
+                            mode = data.mode;
                             order = #self.options+1;
                             callback = function() end;
                             keycallback = function() end;
