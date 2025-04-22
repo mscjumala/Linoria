@@ -1,4 +1,4 @@
-getgenv().instanthit = true
+getgenv().instanthit = false
 local oldnamecall = nil
 oldnamecall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
     local args = {...}
