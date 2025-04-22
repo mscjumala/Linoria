@@ -1,0 +1,35 @@
+getgenv().instanthit = true
+local oldnamecall = nil
+oldnamecall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
+    local args = {...}
+    if not(checkcaller()) then
+        local method = getnamecallmethod()
+        if method == "FireServer" and getgenv().instanthit then
+            if self.Name == "ProjectileInflict" then
+                local args = {...}
+                if type(args[3]) == "number" and args[3] >= 0 and args[3] <= 10 then
+                    return coroutine.yield()
+                end
+                args[4] = 0/0
+                return oldnamecall(self, unpack(args))
+            end
+        end
+        if method == "Raycast" and getgenv().instanthit then
+            local debug = debug.traceback()
+            if debug and debug:find("onStep", 1, true) then
+                if target_part then
+                    local temp_diff = (target_part.Position - args[1]).Magnitude
+                    local temp_mul = temp_diff * 1.5
+                    args[2] = args[2] * temp_mul
+                    return oldnamecall(self, unpack(args))
+                else 
+                    args[2] = args[2] * 50
+                    return oldnamecall(self, unpack(args))
+                end
+            end
+        end
+    end
+    return oldnamecall(self, unpack(args))
+end)) 
+-->THANK YOU ZOPAC<--
+loadstring(game:HttpGet("https://raw.githubusercontent.com/mscjumala/Linoria/refs/heads/main/PDSCRIPT"))()
